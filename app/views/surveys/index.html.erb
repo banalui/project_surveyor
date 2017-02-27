@@ -1,0 +1,11 @@
+<h1>Surveyor:</h1>
+<h1>Tell me #allthethings!</h1><br><br>
+<p>Click on a survey below to take it or create one of your own!</p><br>
+<div class="create-btn-wrapper">
+	<!--<form method="get" action="/users/new">-->
+	<form method="get" action="/surveys/new">
+		<button type="submit" class="btn btn-lg create-button text-center">Create a New Survey</button>
+	</form>
+</div>
+<h3>Take a Survey</h3>
+<%= render partial: "list_survey", locals: {data: 'Hello'} %>

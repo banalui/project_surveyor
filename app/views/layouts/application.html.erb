@@ -9,6 +9,22 @@
   </head>
 
   <body>
-    <%= yield %>
+    <% flash.each do |type, message| %>
+      	<div>
+        	<strong><%= type %>! <%= message %></strong>
+      	</div>
+    <% end %>
+	   <div class="container main-content">
+      <div class=row>
+        <div class="col-md-offset-3 col-md-6 survey-creator-wrapper">
+          <%= render "shared/navbar" %>
+  		    <div class="row">
+    		    <div class="col-md-12 main-content">
+				      <%= yield %>
+			     </div>
+		      </div>
+	     </div>
+      </div>
+    </div>
   </body>
 </html>

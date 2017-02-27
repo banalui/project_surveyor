@@ -1,0 +1,28 @@
+<h2>Survey Builder</h2>
+<hr>
+<div class="row tabs-wrapper">
+	<div class="col-md-offset-2 col-md-4 tabs1">
+		<h4 class="unselected-tab">1.Build Survey</h4>
+	</div>
+	<div class="col-md-4 tabs2">
+		<h4>2.Add Questions</h4>
+	</div>
+</div><br><br><br>
+<p>Next, fill in the questions</p><br>
+<h3>Title:</h3>
+<p><%= @survey.title %></p><br>
+<h3>Description:</h3>
+<p><%= @survey.description %></p><br>
+<hr><br>
+<h3>Add a Question:</h3><br>
+<em>Choose which type of question to add</em><br><br>
+
+<%= form_for [@survey, @question] do |f| %>
+	<div class="form-group">
+		<%= f.collection_select :type, @question_types, :to_s, :to_s, { }, class: "dropdown-category-class form-control"%><br>
+	</div><br>
+
+	<div class="form-group create-btn-wrapper">
+		<%= f.submit "Add a New Question", class: "create-button" %><br />
+	</div>
+<% end %>
