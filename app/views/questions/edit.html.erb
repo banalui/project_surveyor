@@ -1,0 +1,49 @@
+<h2>Survey Builder</h2>
+<hr>
+<div class="row tabs-wrapper">
+	<div class="col-md-offset-2 col-md-4 tabs1">
+		<h4 class="unselected-tab">1.Build Survey</h4>
+	</div>
+	<div class="col-md-4 tabs2">
+		<h4>2.Add Questions</h4>
+	</div>
+</div><br><br><br>
+<p class="unselected-tab">Next, fill in the questions</p><br>
+<h3 class="unselected-tab">Title:</h3>
+<p class="unselected-tab"><%= @survey.title %></p><br>
+<h3 class="unselected-tab">Description:</h3>
+<p class="unselected-tab"><%= @survey.description %></p><br>
+<hr><br>
+<h3>Add a Multiple Choice Question:</h3><br>
+<div class="row tabs-wrapper">
+	<div class="col-md-offset-2 col-md-4 tabs1">
+		<h5>1.Select Options</h5>
+	</div>
+	<div class="col-md-4 tabs2">
+		<h5 class="unselected-tab">2.Add Question Text</h5>
+	</div>
+</div><br><br>
+
+
+<%= form_for [@survey, @question] do |f| %>
+
+	<em>How many options should the question have?</em><br><br>
+	<%= f.collection_select :num_choices, @choices_max, :to_s, :to_s, { }, class: "dropdown-category-class form-control"%><br>
+
+	<em>How many options can be selected?</em><br><br>
+	<%= f.radio_button :choice_type, 'Just One', :checked => true %>
+	<%= f.label 'Just One' %><br>
+	<%= f.radio_button :choice_type, 'Multiple' %>
+	<%= f.label 'Multiple' %><br>
+
+	<em>Is the question required?</em><br><br>
+	<%= f.radio_button :required, 1, :checked => true %>
+	<%= f.label 'Yes' %><br>
+	<%= f.radio_button :required, 0 %>
+	<%= f.label 'No' %>
+
+	<div class="form-group create-btn-wrapper">
+		<%= f.submit "Continue To Next Step", class: "create-button" %><br />
+	</div>
+
+<% end %>

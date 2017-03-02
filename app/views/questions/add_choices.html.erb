@@ -1,0 +1,45 @@
+<h2>Survey Builder</h2>
+<hr>
+<div class="row tabs-wrapper">
+	<div class="col-md-offset-2 col-md-4 tabs1">
+		<h4 class="unselected-tab">1.Build Survey</h4>
+	</div>
+	<div class="col-md-4 tabs2">
+		<h4>2.Add Questions</h4>
+	</div>
+</div><br><br><br>
+<p class="unselected-tab">Next, fill in the questions</p><br>
+<h3 class="unselected-tab">Title:</h3>
+<p class="unselected-tab"><%= @survey.title %></p><br>
+<h3 class="unselected-tab">Description:</h3>
+<p class="unselected-tab"><%= @survey.description %></p><br>
+<hr><br>
+<h3>Add a Multiple Choice Question:</h3><br>
+<div class="row tabs-wrapper">
+	<div class="col-md-offset-2 col-md-4 tabs1">
+		<h5 class="unselected-tab">1.Select Options</h5>
+	</div>
+	<div class="col-md-4 tabs2">
+		<h5>2.Add Question Text</h5>
+	</div>
+</div><br><br>
+
+<em>Next, add the text for each of your options</em><br><br>
+
+<%= form_for [@survey, @question] , :url => url_for(:controller => 'questions', :action => 'update_choices') do |q_fields| %>
+
+	<div class="form-group">
+		<h4>What is your question?</h4>
+		<%= q_fields.text_field :text, class: "form-control", placeholder: "eg. \"Who does Number Two Work For?\"" %><%= form_field_error_messages(@question, :text) %>
+	</div>
+	<div class="form-group">
+		<%= q_fields.fields_for :choices do |c_fields| %>
+			<h4>Option:</h4>
+			<%= c_fields.text_field :text, class: "form-control", placeholder: "eg. \"Dr Evil\"" %>
+		<% end %>
+	</div><br>
+	<div class="form-group create-btn-wrapper">
+		<%= q_fields.submit "Add Question", class: "create-button" %><br />
+	</div>
+
+<% end %>

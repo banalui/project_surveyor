@@ -17,13 +17,13 @@
 <h3>Add a Question:</h3><br>
 <em>Choose which type of question to add</em><br><br>
 
-<%= form_for [@survey, @question] do |f| %>
+<%= form_for [@survey, @question] do |sf| %>
 	<div class="form-group">
-		<%= f.collection_select :question_type, @question_types, :to_s, :to_s, { }, class: "dropdown-category-class form-control"%><br>
+		<%= sf.collection_select :type, @question_types, :to_s, :to_s, { }, class: "dropdown-category-class form-control"%><br>
 	</div><br>
 
 	<div class="form-group create-btn-wrapper">
-		<%= f.submit "Add a New Question", class: "create-button" %><br />
+		<%= sf.submit "Add a New Question", class: "create-button" %><br />
 	</div>
 <% end %>
 <hr><br><br>

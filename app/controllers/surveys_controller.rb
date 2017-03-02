@@ -23,7 +23,21 @@ class SurveysController < ApplicationController
 
 	def edit
 		@survey = Survey.find(params[:id])
-		@question = @survey.questions.build();
+		@question = @survey.questions.build()
 		@question_types= ['Multiple Choice']
+	end
+
+	def update
+		@survey = Survey.find(params[:id])
+		@question = @survey.questions.build()
+		puts "\n\n\n\n params type #{params[:type]}\n\n\n"
+		@question.type = params[:type]
+		if @question.save
+			flash[:success] = "Question created successfully"
+			redirect_to edit_survey_question_path(@survey.id, @question.id)
+		else
+			flash[:error] = "Question creation failed"
+			render action: "edit"
+		end
 	end
 end
