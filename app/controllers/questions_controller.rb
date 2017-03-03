@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
 	include QuestionsHelper
 
+	before_filter :store_referer, :only => [:add_choices]
+
 	def create
 		@survey = Survey.find(params[:survey_id])
 		@question = @survey.questions.build()
@@ -17,6 +19,7 @@ class QuestionsController < ApplicationController
 		@survey = Survey.find(params[:survey_id])
 		@question = Question.find(params[:id])
 		@choices_max = (1..10).to_a
+		@no_question_yet = (@survey.questions.size == 0)
 	end
 
 	def update
@@ -31,7 +34,16 @@ class QuestionsController < ApplicationController
 		end
 	end
 
+	def store_referer
+    	session[:referer] = URI(request.referer).path
+  	end
+
+  	def referer
+    	session.delete(:referer)
+  	end
+
 	def add_choices
+		@back_url = session[:referer]
 		@question = Question.find(params[:format])
 		@question.num_choices.times do
 			@question.choices.build
@@ -40,19 +52,11 @@ class QuestionsController < ApplicationController
 	end
 
 	def update_choices
-		puts "\n\n\n\n Printing Params \n\n\n\n"
-		params.each do |key, value|
-			puts "#{key} => #{value}"
-		end
-		puts "\n\n\n\n Printing Params question \n\n\n\n"
-		params[:question].each do |key, value|
-			puts "#{key} => #{value}"
-		end
 		@survey = Survey.find(params[:survey_id])
 		@question = @survey.questions.last
 		if @question.update(question_params)			
 			flash[:success] = "Great! Your question has been updated!"
-			redirect_to surveys_path
+			redirect_to redirect_to edit_survey_path(@survey.id)
 		else
 			flash[:error] = "Could not update!"
 			render action: "add_choices"

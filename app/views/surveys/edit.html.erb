@@ -28,3 +28,8 @@
 <% end %>
 <hr><br><br>
 <h3>Existing Questions</h3><br>
+<% if @no_question_yet %>
+	<p>There are no questions yet!</p>
+<% else %>
+	<p>There are some questions yet!</p>
+<% end %>

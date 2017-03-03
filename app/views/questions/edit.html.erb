@@ -47,3 +47,9 @@
 	</div>
 
 <% end %>
+<h3 class="unselected-tab">Existing Questions</h3><br>
+<% if @no_question_yet %>
+	<p class="unselected-tab">There are no questions yet!</p>
+<% else %>
+	<p class="unselected-tab">There are some questions yet!</p>
+<% end %>

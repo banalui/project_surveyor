@@ -3,7 +3,7 @@ class SurveysController < ApplicationController
 	include SurveysHelper
 
 	def index
-		
+		@surveys = Survey.all
 	end
 
 	def new
@@ -23,6 +23,7 @@ class SurveysController < ApplicationController
 
 	def edit
 		@survey = Survey.find(params[:id])
+		@no_question_yet = (@survey.questions.size == 0)
 		@question = @survey.questions.build()
 		@question_types= ['Multiple Choice']
 	end
