@@ -32,7 +32,8 @@ end
 	q.save!
 	q.num_choices.times do
 		c = q.choices.build
-		c.text = Faker::Lorem.sentence
+		c.text = Faker::Lorem.word
+		c.checked_count = 0
 		c.save!
 	end
 end
