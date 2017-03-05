@@ -24,8 +24,9 @@ class SurveysController < ApplicationController
 	def edit
 		@survey = Survey.find(params[:id])
 		@no_question_yet = (@survey.questions.size == 0)
-		@question = @survey.questions.build()
+		@question = Question.new
 		@question_types= ['Multiple Choice']
+		@alfabets = ('a'..'z').to_a
 	end
 
 	def update

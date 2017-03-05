@@ -20,13 +20,15 @@ class QuestionsController < ApplicationController
 		@question = Question.find(params[:id])
 		@choices_max = (1..10).to_a
 		@no_question_yet = (@survey.questions.size == 0)
+		@alfabets = ('a'..'z').to_a
+		@no_question_yet = (@survey.questions.size == 0)
 	end
 
 	def update
 		@question = Question.find(params[:id])
 		@question.num_choices = params[:question][:num_choices].to_i
 		@question.choice_type = params[:question][:choice_type]
-		@question.required = (params[:question][:num_choices].to_i) ? true : false
+		@question.required = (params[:question][:num_choices].to_i == 1) ? true : false
 		if @question.save
 			redirect_to add_choices_survey_questions_path(params[:survey_id], @question.id)
 		else
@@ -49,6 +51,8 @@ class QuestionsController < ApplicationController
 			@question.choices.build
 		end
 		@survey = Survey.find(params[:survey_id])
+		@alfabets = ('a'..'z').to_a
+		@no_question_yet = (@survey.questions.size == 0)
 	end
 
 	def update_choices
@@ -56,10 +60,21 @@ class QuestionsController < ApplicationController
 		@question = @survey.questions.last
 		if @question.update(question_params)			
 			flash[:success] = "Great! Your question has been updated!"
-			redirect_to redirect_to edit_survey_path(@survey.id)
+			redirect_to edit_survey_path(@survey.id)
 		else
 			flash[:error] = "Could not update!"
 			render action: "add_choices"
+		end
+	end
+
+	def destroy
+		@question = Question.find(params[:id])
+		@survey = Survey.find(params[:survey_id])
+		if @question.destroy
+			flash[:success] = "Great! Your question has been deleted!"
+			redirect_to edit_survey_path(@survey.id)
+		else
+			flash[:success] = "Could not delete!"
 		end
 	end
 end

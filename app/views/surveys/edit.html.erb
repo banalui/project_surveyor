@@ -27,9 +27,26 @@
 	</div>
 <% end %>
 <hr><br><br>
-<h3>Existing Questions</h3><br>
-<% if @no_question_yet %>
-	<p>There are no questions yet!</p>
-<% else %>
-	<p>There are some questions yet!</p>
-<% end %>
+<div>
+	<h3>Existing Questions</h3><br>
+	<% if @no_question_yet %>
+		<p>There are no questions yet!</p>
+	<% else %>
+		<% @survey.questions.each_with_index do |question, index| %>
+			<% if question.text %>
+				<h4><%= index + 1 %>.<%= question.text %></h4>
+				<% if question.required %>
+					<em>Required</em>. <em>Select <%= question.choice_type %></em>
+				<% else %>
+					<em>Not Required</em>. <em>Select <%= question.choice_type %></em>
+				<% end %>
+				<br><br>
+				<% question.choices.each_with_index do |choice, index_choice| %>
+					<%= @alfabets[index_choice] %>. <%= choice.text %><br>
+				<% end %>
+				<br>
+				<%= link_to "Remove Question", survey_question_path(@survey.id, question.id), method: "delete", data: {confirm: "Do you really want to delete?"} %>
+			<% end %>
+		<% end %>
+	<% end %>
+</div>

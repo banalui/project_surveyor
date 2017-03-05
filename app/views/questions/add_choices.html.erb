@@ -33,12 +33,9 @@
 		<%= q_fields.text_field :text, class: "form-control", placeholder: "eg. \"Who does Number Two Work For?\"" %><%= form_field_error_messages(@question, :text) %>
 	</div>
 	<div class="form-group">
-		<% @question.choices.each_with_index  do |choice, index| %>
-
-			<%= q_fields.fields_for choice do |c_fields| %>
-				<h4>Option<%= index +1 %>:</h4>
-				<%= c_fields.text_field :text, class: "form-control", placeholder: "eg. \"Dr Evil\"" %>
-			<% end %>
+		<%= q_fields.fields_for :choices do |c_fields| %>
+			<h4>Option</h4>
+			<%= c_fields.text_field :text, class: "form-control", placeholder: "eg. \"Dr Evil\"" %>
 		<% end %>
 	</div><br>
 	<div class="form-group create-btn-wrapper">
@@ -46,11 +43,28 @@
 	</div>
 
 <% end %>
+<hr>
+<div class="unselected-tab">
+	<h3>Existing Questions</h3><br>
+	<% if @no_question_yet %>
+		<p>There are no questions yet!</p>
+	<% else %>
+		<% @survey.questions.each_with_index do |question, index| %>
+			<% if question.text %>
+				<h4><%= index + 1 %>.<%= question.text %></h4>
+				<% if question.required %>
+					<em>Required</em>. <em>Select <%= question.choice_type %></em>
+				<% else %>
+					<em>Not Required</em>. <em>Select <%= question.choice_type %></em>
+				<% end %>
+				<br><br>
+				<% question.choices.each_with_index do |choice, index_choice| %>
+					<%= @alfabets[index_choice] %>. <%= choice.text %><br>
+				<% end %>
+				<br>
+			<% end %>
+		<% end %>
+	<% end %>
+</div>
 <br><br>
 <%= link_to "Back to previous page", @back_url %>
-<h3 class="unselected-tab">Existing Questions</h3><br>
-<% if @no_question_yet %>
-	<p class="unselected-tab">There are no questions yet!</p>
-<% else %>
-	<p class="unselected-tab">There are some questions yet!</p>
-<% end %>

@@ -47,9 +47,26 @@
 	</div>
 
 <% end %>
-<h3 class="unselected-tab">Existing Questions</h3><br>
-<% if @no_question_yet %>
-	<p class="unselected-tab">There are no questions yet!</p>
-<% else %>
-	<p class="unselected-tab">There are some questions yet!</p>
-<% end %>
+<hr>
+<div class="unselected-tab">
+	<h3>Existing Questions</h3><br>
+	<% if @no_question_yet %>
+		<p>There are no questions yet!</p>
+	<% else %>
+		<% @survey.questions.each_with_index do |question, index| %>
+			<% if question.text %>
+				<h4><%= index + 1 %>.<%= question.text %></h4>
+				<% if question.required %>
+					<em>Required</em>. <em>Select <%= question.choice_type %></em>
+				<% else %>
+					<em>Not Required</em>. <em>Select <%= question.choice_type %></em>
+				<% end %>
+				<br><br>
+				<% question.choices.each_with_index do |choice, index_choice| %>
+					<%= @alfabets[index_choice] %>. <%= choice.text %><br>
+				<% end %>
+				<br>
+			<% end %>
+		<% end %>
+	<% end %>
+</div>
