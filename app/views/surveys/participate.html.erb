@@ -3,24 +3,32 @@
 <h4 class="center-h4"><%= @survey.title %></h4>
 <p><%= @survey.description %></p><br>
 <em class="unselected-tab">Questions marked with an astetisk (*) are required</em><br><br>
-
-
-
 <%= form_for @survey, :url => url_for(:controller => 'surveys', :action => 'generate_result') do |f| %>
-
 	<% @survey.questions.each_with_index do |question, index| %>
 		<%= f.fields_for "qid[#{question.id}]", question do |q_fields| %>
-			<h4><%= index + 1 %>.<%= question.text %></h4><br>
+			<% if question.required %>
+				<h4>*<%= index + 1 %>.<%= question.text %></h4><br>
+			<% else %>
+				<h4><%= index + 1 %>.<%= question.text %></h4><br>
+			<% end %>
 			<div class="col-md-offset-2 col-md-10">
 				<% question.choices.each_with_index do |choice| %>
 					<% if question.choice_type == 'Just One' %>
 						<%= q_fields.fields_for choice do |c_fields| %>
-							<%= c_fields.radio_button :checked_count, choice.id, :checked => false %>
+							<% if question.required %>
+								<%= c_fields.radio_button :checked_count, choice.id, :checked => false, :required => true %>
+							<% else %>
+								<%= c_fields.radio_button :checked_count, choice.id, :checked => false %>
+							<% end %>
 							<%= c_fields.label choice.text %><br>
 						<% end %>
 					<% else %>
 						<%= q_fields.fields_for "#{choice.id}", choice do |c_fields| %>
-							<%= c_fields.check_box :checked_count, {}, '1', '0' %>
+							<% if question.required %>
+								<%= c_fields.check_box :checked_count, {:checked => false, :required => true}, '1', '0' %>
+							<% else %>
+								<%= c_fields.check_box :checked_count, {:checked => false}, '1', '0' %>
+							<% end %>
 							<%= c_fields.label choice.text %><br>
 						<% end %>
 					<% end %>
@@ -31,7 +39,4 @@
 	<div class="form-group create-btn-wrapper">
 		<%= f.submit "Submit Your Survey", class: "create-button" %><br />
 	</div>
-
-
-
 <% end %>

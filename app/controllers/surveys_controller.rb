@@ -49,24 +49,11 @@ class SurveysController < ApplicationController
 
 	def generate_result
 		@survey = Survey.find(params[:id])
-		#puts "\n\n\nGenerate Results\n\n\n"
-		#params[:survey][:qid].each do |key1, value1|
-		#	puts "\n\n************ Generate Results qid #{key1} *****************\n\n"
-		#	value1.each do |key2, value2|
-		#		puts "\n           Generate Results cid #{key2}\n"
-		#		value2.each do |key3, value3|
-		#			puts "              key : #{key3} => value : #{value3}"
-		#		end
-		#	end
-		#end
-
-		#puts "\n\n\n ------------------------- Result -------------------------- \n\n\n"
 		params[:survey][:qid].each do |question_id, question_results|
 			@question = @survey.questions.find(question_id)
 			question_results.each do |choice_id, choice_result|
 				if choice_id == 'choice'
 					# Radio Button
-					puts "Radio Button For Question ID #{question_id} = #{choice_result['checked_count']}"
 					@choice = @question.choices.find(choice_result['checked_count'].to_i)
 					@choice.checked_count = @choice.checked_count + 1
 					@choice.save!
@@ -77,7 +64,6 @@ class SurveysController < ApplicationController
 						@choice.checked_count = @choice.checked_count + 1
 						@choice.save!
 					end
-					#puts "Checkbox     For Question ID #{question_id} and Choice ID #{choice_id} = #{choice_result['checked_count']}"
 				end
 			end
 		end
