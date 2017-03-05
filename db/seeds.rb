@@ -31,7 +31,8 @@ end
 	q.survey_id = (Faker::Number.between(1, 2) == 1) ? Survey.first.id : Survey.last.id
 	q.save!
 	q.num_choices.times do
-		c = Choice.new
+		c = q.choices.build
 		c.text = Faker::Lorem.sentence
+		c.save!
 	end
 end
