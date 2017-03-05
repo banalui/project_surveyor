@@ -42,4 +42,8 @@ class SurveysController < ApplicationController
 			render action: "edit"
 		end
 	end
+
+	def participate
+		@survey = Survey.find(params[:id])
+	end
 end
