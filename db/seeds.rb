@@ -18,6 +18,7 @@ puts "Old records destroyed"
 	s = Survey.new
 	s.title = Faker::Lorem.sentence
 	s.description = Faker::Lorem.paragraph
+	s.response_count = 0
 	s.save!
 end
 

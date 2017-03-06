@@ -2,7 +2,7 @@
 <% @surveys.each_with_index do |survey, index| %>
 	<h4><%= index + 1 %>.<%= survey.title %></h4>
 	<p><%= survey.description %></p>
-	<em>0 Responses</em><br><br>
+	<em><%= survey.response_count %> Responses</em><br><br>
 	<div class="row">
 		<div class="col-md-3">
 			<form method="get" action="/surveys/<%= survey.id %>/participate">
