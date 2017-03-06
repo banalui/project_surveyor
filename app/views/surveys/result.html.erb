@@ -1,0 +1,20 @@
+<h2>Survey Results:</h2>
+<hr>
+<h4 class="center-h4"><%= @survey.title %></h4>
+<p><%= @survey.description %></p><br>
+<em><%= @survey.response_count %> Responses</em><br><br>
+<% @survey.questions.each_with_index do |question, index| %>
+	<h4><%= "#{index + 1} #{question.text}" %></h4>
+	<table class="table table-bordered table-striped table-user">
+		<tr>
+			<th>Response</th>
+			<th>Count</th>
+		</tr>
+		<% question.choices.each do |choice| %>
+			<tr>
+				<td><%= choice.text %></td>
+				<td><%= choice.checked_count %></td>
+			</tr>
+		<% end %>
+	</table><br><br>
+<% end %>

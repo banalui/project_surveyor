@@ -13,13 +13,16 @@
 			<% end %>
 			<div class="col-md-offset-2 col-md-10">
 				<% question.choices.each_with_index do |choice| %>
-					<%= q_fields.fields_for choice do |c_fields| %>
-						<% if question.choice_type == 'Just One' %>
+					<% if question.choice_type == 'Just One' %>
+						<%= q_fields.fields_for choice do |c_fields| %>
 							<%= c_fields.radio_button :checked_count, choice.id, :checked => false, :required => question.required %>
-						<% else %>
-							<%= c_fields.check_box :checked_count, {:checked => false, :multiple => true}, '1', '0' %>
+							<%= c_fields.label choice.text %><br>
 						<% end %>
-						<%= c_fields.label choice.text %><br>
+					<% else %>
+						<%= q_fields.fields_for "[#{choice.id}]", choice do |c_fields| %>
+							<%= c_fields.check_box :checked_count, {:checked => false, :multiple => true}, '1', '0' %>
+							<%= c_fields.label choice.text %><br>
+						<% end %>
 					<% end %>
 				<% end %>
 				<br>
